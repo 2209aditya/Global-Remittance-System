@@ -1,0 +1,18 @@
+parameters:
+  environment: ""
+
+steps:
+
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: "your-service-connection"
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      echo "Running Terraform for ${{ parameters.environment }}"
+
+      cd infra/${{ parameters.environment }}
+
+      terraform init
+      terraform plan -out=tfplan
+      terraform apply -auto-approve tfplan

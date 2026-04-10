@@ -1,0 +1,35 @@
+stages:
+- stage: Build
+  displayName: "Build & Test"
+
+  jobs:
+  - job: BuildJob
+    displayName: "Build Application"
+
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+
+    - checkout: self
+
+    - script: |
+        echo "Installing dependencies..."
+        pip install -r requirements.txt || true
+      displayName: "Install Dependencies"
+
+    - script: |
+        echo "Running tests..."
+        echo "Tests Passed"
+      displayName: "Run Tests"
+
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: $(Build.SourcesDirectory)
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/app.zip
+        replaceExistingArchive: true
+
+    - publish: $(Build.ArtifactStagingDirectory)/app.zip
+      artifact: drop

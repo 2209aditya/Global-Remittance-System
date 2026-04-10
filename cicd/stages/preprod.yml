@@ -1,0 +1,20 @@
+stages:
+- stage: PreProd
+  displayName: "Deploy to PreProd"
+  dependsOn: UAT
+
+  jobs:
+  - deployment: DeployPreProd
+    environment: preprod
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - download: current
+            artifact: drop
+
+          - script: |
+              echo "Deploying to PreProd..."
+            displayName: "Deploy PreProd"

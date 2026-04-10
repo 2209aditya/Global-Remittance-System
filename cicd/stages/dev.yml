@@ -1,0 +1,26 @@
+stages:
+- stage: Dev
+  displayName: "Deploy to DEV"
+  dependsOn: Build
+
+  jobs:
+  - deployment: DeployDev
+    environment: dev
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - download: current
+            artifact: drop
+
+          - script: |
+              echo "Deploying to DEV..."
+              echo "Terraform Init"
+              echo "Terraform Apply DEV"
+            displayName: "Terraform Deploy DEV"
+
+          - script: |
+              echo "Running smoke tests..."
+            displayName: "Smoke Test DEV"

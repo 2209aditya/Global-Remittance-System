@@ -1,0 +1,20 @@
+stages:
+- stage: UAT
+  displayName: "Deploy to UAT"
+  dependsOn: Dev
+
+  jobs:
+  - deployment: DeployUAT
+    environment: uat
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - download: current
+            artifact: drop
+
+          - script: |
+              echo "Deploying to UAT..."
+            displayName: "Deploy UAT"

@@ -1,0 +1,31 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+pr:
+  branches:
+    include:
+      - "*"
+
+variables:
+  - name: buildConfiguration
+    value: Release
+
+stages:
+
+# 🔹 Build Stage
+- template: templates/build.yml
+
+# 🔹 Dev Deployment
+- template: stages/dev.yml
+
+# 🔹 UAT Deployment
+- template: stages/uat.yml
+
+# 🔹 PreProd Deployment
+- template: stages/preprod.yml
+
+# 🔹 Prod Deployment (with approval)
+- template: stages/prod.yml

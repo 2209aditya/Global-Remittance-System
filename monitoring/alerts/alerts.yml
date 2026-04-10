@@ -1,0 +1,21 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'default'
+
+receivers:
+
+- name: 'default'
+  email_configs:
+    - to: 'your-email@example.com'
+      from: 'alerts@globalremit.com'
+      smarthost: 'smtp.gmail.com:587'
+      auth_username: 'your-email@example.com'
+      auth_password: 'your-password'
+
+# 🔹 Optional Slack integration
+# - name: 'slack'
+#   slack_configs:
+#     - api_url: 'https://hooks.slack.com/services/XXXX'
+#       channel: '#alerts'

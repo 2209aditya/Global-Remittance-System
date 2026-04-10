@@ -1,0 +1,25 @@
+stages:
+- stage: Prod
+  displayName: "Deploy to PROD"
+  dependsOn: PreProd
+
+  jobs:
+  - deployment: DeployProd
+    environment: prod   # Add approval in Azure DevOps UI
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - download: current
+            artifact: drop
+
+          - script: |
+              echo "Deploying to PROD..."
+              echo "Zero downtime strategy"
+            displayName: "Deploy PROD"
+
+          - script: |
+              echo "Running health checks..."
+            displayName: "Health Check"
